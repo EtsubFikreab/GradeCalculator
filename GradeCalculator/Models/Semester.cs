@@ -6,6 +6,7 @@
 		public string Name { get; set; }
 		public double? Average { get; set; }
 		public double? CGPA { get; set; }
+		public int Order { get; set; }
 		public List<Course>? Courses { get; set; }
 	}
 }

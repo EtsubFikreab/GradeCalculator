@@ -1,5 +1,64 @@
-﻿@{
+﻿@using GradeCalculator.ViewModel;
+@model ProfileViewModel
+@{
 	ViewData["Title"] = "Home Page";
 }
+@if (@Model.Profiles.Count > 0)
+{
+	<h3>
+		Profiles
+	</h3>
+	<h4>Select Profile</h4>
 
+	<div class="profile-container">
+		@foreach (var p in @Model.Profiles)
+		{
+			<form method="post" asp-controller="Grade" asp-action="Index" enctype="multipart/form-data">
+				<input hidden asp-for="Profile.ID" value="@p.ID">
+				<input class="profile" type="submit" asp-for="Profile.Name" value="@p.Name">
+			</form>
+		}
+	</div>
+}
 
+<form method="post" class="add-profile-form" asp-controller="Home" asp-action="AddProfile" enctype="multipart/form-data">
+	<h4>
+		Add Profile
+	</h4>
+	<div class="form-group ">
+		<label asp-for="Profile.Name">Name</label>
+		<input asp-for="Profile.Name" class="form-control" style="margin-top:1ch; margin-bottom:1ch;" id="ProfileName">
+	</div>
+	<input type="submit" value="Add Profile" class="add-profile">
+</form>
+
+<style>
+	.profile {
+		background-color: #fff;
+		border-radius: 10px;
+		padding: 20px;
+		margin-bottom: 20px;
+		width: 15ch;
+		box-shadow: 0 0 10px rgba(0,0,0,0.15);
+		margin-right: 3ch;
+		margin-top: 2ch;
+		margin-bottom: 1ch;
+	}
+
+		.profile:hover {
+			background-color: #8ecae6;
+		}
+
+	.profile-container {
+		display: flex;
+		flex-wrap: wrap;
+	}
+
+	.add-profile-form {
+		background-color: #8ecae6;
+		width: 29vw;
+		padding: 2ch;
+		border-radius: 10px;
+		margin-top: 3ch;
+	}
+</style>
