@@ -6,6 +6,6 @@ namespace GradeCalculator.Repository
 	{
 		public List<Profile> GetProfiles();
 		public void AddProfile(string ProfileName);
-
-	}
+		public Profile GetProfile(Profile profile);
+    }
 }

@@ -1,12 +1,12 @@
-﻿@using GradeCalculator.Models
-@model Profile
+﻿@using GradeCalculator.ViewModel;
+@model GradeViewModel
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
 }
 <h4>
-    Welcome Back, @Model.Name
+    @Model.profile.Name's Grades
 </h4>
 
 <div class="semesters">
@@ -71,7 +71,20 @@
 	</div>
 
 </div>
-
+<div>
+	<form class="AddSemester" method="post" enctype="multipart/form-data" asp-controller="Grade" asp-action="AddSemester">
+		<h3>Add Semester Form</h3>
+		<input hidden asp-for="profile.ID" value="@Model.profile.ID">
+		<input hidden asp-for="profile.Name" value="@Model.profile.Name">
+		<label asp-for="newSemester.Name">Semester Name</label>
+		<input asp-for="newSemester.Name">
+		<label asp-for="newSemester.Year">Semester Year</label>
+		<input asp-for="newSemester.Year">
+		<label asp-for="newSemester.SemesterOrder">Semester Order</label>
+		<input asp-for="newSemester.SemesterOrder">
+		<input type="submit" value="Add Semester" class="AddSemester-submit">
+	</form>
+</div>
 <style>
 	.semesters {
 		display: flex;
@@ -131,6 +144,30 @@
 	td {
 		padding: 7px;
 		text-align: center;
+	}
+
+	.AddSemester {
+		display: flex;
+		flex-direction: column;
+		width: 50ch;
+		background-color: #8ecae6;
+		margin-inline: auto;
+		padding: 3ch;
+		padding-inline: 7ch;
+		border-radius: 15px;
+	}
+
+		.AddSemester label {
+			text-align: left;
+			margin-top: 1ch;
+			margin-bottom: 0.5ch;
+		}
+
+	.AddSemester-submit {
+		margin: 2ch;
+		margin-top: 3ch;
+		margin-inline: auto;
+		width: 20ch;
 	}
 </style>
 
