@@ -1,0 +1,36 @@
+﻿@using GradeCalculator.ViewModel;
+@model GradeViewModel
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<a class="btn btn-dark" asp-action="Index" asp-controller="Grade" asp-route-id="@Model.profile.ID">Back</a>
+
+<form enctype="multipart/form-data" method="post" class="AddCourseForm" asp-action="EditCourse" asp-controller="Grade">
+	<div class="modal-body">
+		<h3>Edit Course</h3>
+		<input hidden asp-for="profile.ID" value="@Model.profile.ID">
+		<input hidden asp-for="profile.Name" value="@Model.profile.Name">
+		<input hidden asp-for="newSemester.Id" value="@Model.newSemester.Id">
+
+		<label class="form-label text-left" asp-for="newCourse.CourseCode">Course Code</label>
+		<input class="form-control" asp-for="newCourse.CourseCode" value="@Model.newCourse.CourseCode">
+
+		<label class="form-label text-left" asp-for="newCourse.CourseTitle">Course Title</label>
+		<input class="form-control" asp-for="newCourse.CourseTitle" value="@Model.newCourse.CourseTitle">
+
+		<label class="form-label text-left" asp-for="newCourse.CreditHour">Credit Hour</label>
+		<input class="form-control" asp-for="newCourse.CreditHour" value="@Model.newCourse.CreditHour">
+
+		<label class="form-label text-left" asp-for="newCourse.Grade">Course Grade</label>
+		<input class="form-control" asp-for="newCourse.Grade" value="@Model.newCourse.Grade">
+
+		<label class="form-label text-left" asp-for="newCourse.GradePoint">Course Grade Point</label>
+		<input class="form-control" asp-for="newCourse.GradePoint" value="@Model.newCourse.GradePoint">
+
+	</div>
+	<div class="modal-footer">
+		<input type="submit" class="btn btn-primary" value="Save Changes">
+	</div>
+</form>

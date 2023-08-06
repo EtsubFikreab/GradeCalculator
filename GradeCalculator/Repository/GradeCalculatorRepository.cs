@@ -48,7 +48,7 @@ namespace GradeCalculator.Repository
 			_GradeCalculatorContext.Semesters.Where(w => w.Id == semester.Id).Include(w => w.Courses).FirstOrDefault().Courses.Add(course);
 			profile = GetProfileById(profile.ID);
 			semester = _GradeCalculatorContext.Semesters.Where(w => w.Id == semester.Id).Include(w => w.Courses).FirstOrDefault();
-			CalculateGrade(profile.Semesters, semester);
+			semester = CalculateGrade(profile.Semesters, semester);
 			_GradeCalculatorContext.Update(semester);
 			_GradeCalculatorContext.SaveChanges();
 		}
@@ -96,20 +96,35 @@ namespace GradeCalculator.Repository
 		{
 			return _GradeCalculatorContext.Courses.Find(CourseId);
 		}
-		public void DeleteCourse(Course course)
+		public void DeleteCourse(Profile profile, Semester semester, Course course)
 		{
 			_GradeCalculatorContext.Courses.Remove(course);
+			profile = GetProfileById(profile.ID);
+			semester = _GradeCalculatorContext.Semesters.Where(w => w.Id == semester.Id).Include(w => w.Courses).FirstOrDefault();
+			semester = CalculateGrade(profile.Semesters, semester);
+			_GradeCalculatorContext.Update(semester);
 			_GradeCalculatorContext.SaveChanges();
 		}
 		public void EditSemester(Semester semester)
 		{
 			_GradeCalculatorContext.Update(semester);
 			_GradeCalculatorContext.SaveChanges();
+		}	
+		public void EditCourse(Profile profile, Semester semester, Course course)
+		{
+			_GradeCalculatorContext.Courses.Update(course);
+			profile = GetProfileById(profile.ID);
+			semester = _GradeCalculatorContext.Semesters.Where(w => w.Id == semester.Id).Include(w => w.Courses).FirstOrDefault();
+			semester = CalculateGrade(profile.Semesters, semester);
+			_GradeCalculatorContext.Update(semester);
+			_GradeCalculatorContext.SaveChanges();
 		}
 		Semester CalculateGrade(List<Semester> semesters, Semester semester)
 		{
-			if (semester.SemesterOrder.Equals(semesters[0].SemesterOrder))
+			if (semester.Courses.Count > 0 && semester.SemesterOrder.Equals(semesters[0].SemesterOrder))
 			{
+				semester.TotalGradePoint = 0;
+				semester.TotalCreditHour = 0;
 				foreach (var c in semester.Courses)
 				{
 					semester.TotalCreditHour += c.CreditHour;
@@ -122,12 +137,17 @@ namespace GradeCalculator.Repository
 			{
 				semester.TotalGradePoint = 0;
 				semester.TotalCreditHour = 0;
-				foreach (var c in semester.Courses)
+				if (semester.Courses.Count > 0)
 				{
-					semester.TotalCreditHour += c.CreditHour;
-					semester.TotalGradePoint += c.GradePoint;
+					foreach (var c in semester.Courses)
+					{
+						semester.TotalCreditHour += c.CreditHour;
+						semester.TotalGradePoint += c.GradePoint;
+					}
+					semester.Average = (semester.TotalGradePoint / (semester.TotalCreditHour * 4)) * 4;
 				}
-				semester.Average = (semester.TotalGradePoint / (semester.TotalCreditHour * 4)) * 4;
+				else
+					semester.Average = 0;
 				double? TotalGP = 0, TotalCredit = 0;
 				foreach (var s in semesters)
 				{

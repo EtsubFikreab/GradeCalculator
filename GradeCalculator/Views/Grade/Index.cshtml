@@ -25,6 +25,7 @@
 							<th>Credit Hour</th>
 							<th>Grade</th>
 							<th>Grade Point</th>
+							<th>Edit</th>
 							<th>Delete</th>
 						</tr>
 					</thead>
@@ -41,18 +42,28 @@
 									<td class="CourseGrade">@c.Grade</td>
 									<td class="GradePoint">@c.GradePoint</td>
 									<td>
+										<form method="post" enctype="multipart/form-data" asp-controller="Grade" asp-action="EditCourse">
+											<input hidden asp-for="profile.ID" value="@Model.profile.ID">
+											<input hidden asp-for="profile.Name" value="@Model.profile.Name">
+											<input hidden asp-for="newCourse.Id" value="@c.Id">
+											<input hidden asp-for="newSemester.Id" value="@s.Id">
+											<button class="submit-buttons" type="submit"> <img src="~/edit.png"> </button>
+										</form>
+									</td>
+									<td>
 										<form method="post" enctype="multipart/form-data" asp-controller="Grade" asp-action="DeleteCourse">
 											<input hidden asp-for="profile.ID" value="@Model.profile.ID">
 											<input hidden asp-for="profile.Name" value="@Model.profile.Name">
 											<input hidden asp-for="newCourse.Id" value="@c.Id">
-											<input class="btn btn-danger" type="submit" value="Del">
+											<input hidden asp-for="newSemester.Id" value="@s.Id">
+											<button class="submit-buttons" type="submit"> <img src="~/trash.png"> </button>
 										</form>
 									</td>
 								</tr>
 							}
 						}
 						<tr>
-							<td colspan="6">
+							<td colspan="7">
 								<!-- Button trigger modal -->
 								<button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
 									Add Course
@@ -139,6 +150,15 @@
 	</form>
 </div>
 <style>
+	img {
+		width: 30px;
+	}
+
+	.submit-buttons {
+		background-color:transparent;
+		border:0px solid black;
+	}
+
 	.semesters {
 		display: flex;
 		flex-wrap: wrap;

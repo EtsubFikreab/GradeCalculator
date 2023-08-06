@@ -14,8 +14,9 @@ namespace GradeCalculator.Repository
 		public Semester GetSemester(int SemesterID);
 		public void DeleteSemester(Semester semester);
 		public Course GetCourse(int CourseId);
-		public void DeleteCourse(Course course);
+		public void DeleteCourse(Profile profile, Semester semester, Course course);
 		public void EditSemester(Semester semester);
+		public void EditCourse(Profile profile, Semester semester, Course course);
 
 	}
 }
