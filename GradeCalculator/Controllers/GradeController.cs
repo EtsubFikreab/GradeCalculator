@@ -48,11 +48,11 @@ namespace GradeCalculator.Controllers
 		}
 		public IActionResult EditCourse(GradeViewModel gradeViewModel)
 		{
-			if (gradeViewModel.newSemester.Name == null)
-				gradeViewModel.newSemester = _GradeCalculatorRepository.GetSemester(gradeViewModel.newSemester.Id);
 			if(gradeViewModel.newCourse.CourseTitle==null)
 				gradeViewModel.newCourse=_GradeCalculatorRepository.GetCourse(gradeViewModel.newCourse.Id);
 			_GradeCalculatorRepository.EditCourse(gradeViewModel.profile, gradeViewModel.newSemester, gradeViewModel.newCourse);
+			if (gradeViewModel.newSemester.Name == null)
+				gradeViewModel.newSemester = _GradeCalculatorRepository.GetSemester(gradeViewModel.newSemester.Id);
 			return View(gradeViewModel);
 		}
 		public IActionResult DeleteCourse(GradeViewModel gradeViewModel)
