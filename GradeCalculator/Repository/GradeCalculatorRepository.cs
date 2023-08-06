@@ -92,6 +92,15 @@ namespace GradeCalculator.Repository
 			_GradeCalculatorContext.Semesters.Remove(semester);
 			_GradeCalculatorContext.SaveChanges();
 		}
+		public Course GetCourse(int CourseId)
+		{
+			return _GradeCalculatorContext.Courses.Find(CourseId);
+		}
+		public void DeleteCourse(Course course)
+		{
+			_GradeCalculatorContext.Courses.Remove(course);
+			_GradeCalculatorContext.SaveChanges();
+		}
 		public void EditSemester(Semester semester)
 		{
 			_GradeCalculatorContext.Update(semester);

@@ -46,5 +46,11 @@ namespace GradeCalculator.Controllers
 			_GradeCalculatorRepository.EditSemester(gradeViewModel.newSemester);
 			return View(gradeViewModel);
 		}
+		public IActionResult DeleteCourse(GradeViewModel gradeViewModel)
+		{
+			gradeViewModel.newCourse = _GradeCalculatorRepository.GetCourse(gradeViewModel.newCourse.Id);
+			_GradeCalculatorRepository.DeleteCourse(gradeViewModel.newCourse);
+			return View(gradeViewModel);
+		}
 	}
 }

@@ -13,6 +13,8 @@ namespace GradeCalculator.Repository
 		public Course CalculateGradePoint(Course course);
 		public Semester GetSemester(int SemesterID);
 		public void DeleteSemester(Semester semester);
+		public Course GetCourse(int CourseId);
+		public void DeleteCourse(Course course);
 		public void EditSemester(Semester semester);
 
 	}

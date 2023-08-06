@@ -25,6 +25,7 @@
 							<th>Credit Hour</th>
 							<th>Grade</th>
 							<th>Grade Point</th>
+							<th>Delete</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -39,11 +40,19 @@
 									<td class="CreditHour">@c.CreditHour</td>
 									<td class="CourseGrade">@c.Grade</td>
 									<td class="GradePoint">@c.GradePoint</td>
+									<td>
+										<form method="post" enctype="multipart/form-data" asp-controller="Grade" asp-action="DeleteCourse">
+											<input hidden asp-for="profile.ID" value="@Model.profile.ID">
+											<input hidden asp-for="profile.Name" value="@Model.profile.Name">
+											<input hidden asp-for="newCourse.Id" value="@c.Id">
+											<input class="btn btn-danger" type="submit" value="Del">
+										</form>
+									</td>
 								</tr>
 							}
 						}
 						<tr>
-							<td colspan="5">
+							<td colspan="6">
 								<!-- Button trigger modal -->
 								<button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
 									Add Course
@@ -101,13 +110,13 @@
 							<input hidden asp-for="profile.ID" value="@Model.profile.ID">
 							<input hidden asp-for="profile.Name" value="@Model.profile.Name">
 							<input hidden asp-for="newSemester.Id" value="@s.Id">
-							<input type="submit" value="Delete">
+							<input type="submit" class="btn btn-danger" value="Delete">
 						</form>
 						<form method="post" enctype="multipart/form-data" asp-controller="Grade" asp-action="EditSemester">
 							<input hidden asp-for="profile.ID" value="@Model.profile.ID">
 							<input hidden asp-for="profile.Name" value="@Model.profile.Name">
 							<input hidden asp-for="newSemester.Id" value="@s.Id">
-							<input type="submit" value="Edit">
+							<input type="submit" class="btn btn-warning" value="Edit">
 						</form>
 					</div>
 				</div>
