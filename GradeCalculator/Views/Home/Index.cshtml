@@ -13,10 +13,9 @@
 	<div class="profile-container">
 		@foreach (var p in @Model.Profiles)
 		{
-			<form method="post" asp-controller="Grade" asp-action="Index" enctype="multipart/form-data">
-				<input hidden asp-for="Profile.ID" value="@p.ID">
-				<input class="profile" type="submit" asp-for="Profile.Name" value="@p.Name">
-			</form>
+			<a class="profile" asp-controller="Grade" asp-action="Index" asp-route-id="@p.ID">
+				@p.Name
+			</a>
 		}
 	</div>
 }
@@ -43,6 +42,8 @@
 		margin-right: 3ch;
 		margin-top: 2ch;
 		margin-bottom: 1ch;
+		text-decoration:none;
+		text-align:center;
 	}
 
 		.profile:hover {

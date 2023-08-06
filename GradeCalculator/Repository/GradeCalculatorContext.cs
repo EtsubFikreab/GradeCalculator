@@ -7,5 +7,6 @@ namespace GradeCalculator.Repository
 		public GradeCalculatorContext(DbContextOptions<GradeCalculatorContext> options) : base(options) { }
 		public DbSet<Profile> Profiles { get; set; }
 		public DbSet<Semester> Semesters { get; set; }
+		public DbSet<Course> Courses { get; set; }
 	}
 }

@@ -1,0 +1,21 @@
+﻿@using GradeCalculator.ViewModel;
+@model GradeViewModel
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<a class="btn btn-dark" asp-action="Index" asp-controller="Grade" asp-route-id="@Model.profile.ID">Back</a>
+<h2>New Course</h2>
+<div class="Course-info">
+	<p class="fs-5"><span class="fw-light">Code</span> @Model.newCourse.CourseCode</p>
+	<p class="fs-5"><span class="fw-light">Title</span> @Model.newCourse.CourseTitle</p>
+	<p class="fs-5"><span class="fw-light">Credit Hour</span> @Model.newCourse.CreditHour</p>
+	<p class="fs-5"><span class="fw-light">Grade</span> @Model.newCourse.Grade</p>
+	<p class="fs-5"><span class="fw-light">Grade Point</span> @Model.newCourse.GradePoint</p>
+</div>
+<style>
+	.Course-info, h2 {
+		margin-top:2ch;
+	}
+</style>

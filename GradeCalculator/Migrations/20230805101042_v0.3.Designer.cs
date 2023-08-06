@@ -4,6 +4,7 @@ using GradeCalculator.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GradeCalculator.Migrations
 {
     [DbContext(typeof(GradeCalculatorContext))]
-    partial class GradeCalculatorContextModelSnapshot : ModelSnapshot
+    [Migration("20230805101042_v0.3")]
+    partial class v03
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,7 +58,7 @@ namespace GradeCalculator.Migrations
 
                     b.HasIndex("SemesterId");
 
-                    b.ToTable("Courses");
+                    b.ToTable("Course");
                 });
 
             modelBuilder.Entity("GradeCalculator.Models.Profile", b =>

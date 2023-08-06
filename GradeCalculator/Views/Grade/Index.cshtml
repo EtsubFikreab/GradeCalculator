@@ -6,71 +6,115 @@
 @{
 }
 <h4>
-    @Model.profile.Name's Grades
+	@Model.profile.Name's Grades
 </h4>
-
-<div class="semesters">
-	<div class="semester">
-		<div class="semester-name">
-			Term Autumn
-		</div>
-		<table class="Course-table">
-			<thead>
-
-				<tr>
-					<th>Course Code</th>
-					<th>Course Title</th>
-					<th>Credit Hour</th>
-					<th>Grade</th>
-					<th>Grade Point</th>
-				</tr>
-			</thead>
-			<tbody>
-
-				<tr>
-					<td class="CourseCode">CS111</td>
-					<td class="CourseTitle">Introduction to Computer Science</td>
-					<td class="CreditHour">5</td>
-					<td class="CourseGrade">A+</td>
-					<td class="GradePoint">20</td>
-				</tr>
-				<tr>
-					<td>CS111</td>
-					<td>Introduction to Computer Science</td>
-					<td>5</td>
-					<td>A+</td>
-					<td>20</td>
-				</tr>
-				<tr>
-					<td>CS111</td>
-					<td>Introduction to Computer Science</td>
-					<td>5</td>
-					<td>A+</td>
-					<td>20</td>
-				</tr>
-			</tbody>
-		</table>
-		<div class="semester-bottom">
-			<div class="GPA-Section">
-				<div class="AverageGPA">
-					Average GPA: 3.0
+@if (Model.profile.Semesters != null && Model.profile.Semesters.Count > 0)
+{
+	<div class="semesters">
+		@foreach (var s in Model.profile.Semesters)
+		{
+			<div class="semester">
+				<div class="semester-name">
+					Semester @s.Name (Order: @s.SemesterOrder, ID: @s.Id), @s.Year
 				</div>
-				<div class="CGPA">
-					CGPA: 3.0
+				<table class="Course-table w-100">
+					<thead>
+						<tr>
+							<th>Course Code</th>
+							<th>Course Title</th>
+							<th>Credit Hour</th>
+							<th>Grade</th>
+							<th>Grade Point</th>
+						</tr>
+					</thead>
+					<tbody>
+
+						@if (s.Courses != null && s.Courses.Count > 0)
+						{
+							foreach (var c in s.Courses)
+							{
+								<tr>
+									<td class="CourseCode">@c.CourseCode</td>
+									<td class="CourseTitle">@c.CourseTitle</td>
+									<td class="CreditHour">@c.CreditHour</td>
+									<td class="CourseGrade">@c.Grade</td>
+									<td class="GradePoint">@c.GradePoint</td>
+								</tr>
+							}
+						}
+						<tr>
+							<td colspan="5">
+								<!-- Button trigger modal -->
+								<button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
+									Add Course
+								</button>
+
+								<!-- Modal -->
+								<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title" id="exampleModalLabel">Add Course</h5>
+												<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+											</div>
+											<form enctype="multipart/form-data" method="post" class="AddCourseForm" asp-action="AddCourse" asp-controller="Grade">
+												<div class="modal-body">
+													<input hidden asp-for="profile.ID" value="@Model.profile.ID">
+													<input hidden asp-for="profile.Name" value="@Model.profile.Name">
+													<label class="form-label text-left" asp-for="newSemester.Id">Semester ID</label>
+													<input class="form-control" asp-for="newSemester.Id" value="@s.Id">
+													<label class="form-label text-left" asp-for="newCourse.CourseCode">Course Code</label>
+													<input class="form-control" asp-for="newCourse.CourseCode">
+
+													<label class="form-label" asp-for="newCourse.CourseTitle">Course Title</label>
+													<input class="form-control" asp-for="newCourse.CourseTitle">
+
+													<label class="form-label" asp-for="newCourse.CreditHour">Credit Hour</label>
+													<input class="form-control" asp-for="newCourse.CreditHour">
+
+													<label class="form-label" asp-for="newCourse.Grade">Grade</label>
+													<input class="form-control" asp-for="newCourse.Grade">
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+													<input type="submit" class="btn btn-primary" value="Save Changes">
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="semester-bottom">
+					<div class="GPA-Section">
+						<div class="AverageGPA">
+							Average GPA: 3.0
+						</div>
+						<div class="CGPA">
+							CGPA: 3.0
+						</div>
+					</div>
+					<div class="options-section">
+						<form method="post" enctype="multipart/form-data" asp-controller="Grade" asp-action="DeleteSemester">
+							<input hidden asp-for="profile.ID" value="@Model.profile.ID">
+							<input hidden asp-for="profile.Name" value="@Model.profile.Name">
+							<input hidden asp-for="newSemester.Id" value="@s.Id">
+							<input type="submit" value="Delete">
+						</form>
+						<form method="post" enctype="multipart/form-data" asp-controller="Grade" asp-action="EditSemester">
+							<input hidden asp-for="profile.ID" value="@Model.profile.ID">
+							<input hidden asp-for="profile.Name" value="@Model.profile.Name">
+							<input hidden asp-for="newSemester.Id" value="@s.Id">
+							<input type="submit" value="Edit">
+						</form>
+					</div>
 				</div>
 			</div>
-			<div class="options-section">
-				<form method="post">
-					<input type="submit" value="Delete">
-				</form>
-				<form method="post">
-					<input type="submit" value="Edit">
-				</form>
-			</div>
-		</div>
+		}
 	</div>
-
-</div>
+}
 <div>
 	<form class="AddSemester" method="post" enctype="multipart/form-data" asp-controller="Grade" asp-action="AddSemester">
 		<h3>Add Semester Form</h3>
@@ -82,7 +126,7 @@
 		<input asp-for="newSemester.Year">
 		<label asp-for="newSemester.SemesterOrder">Semester Order</label>
 		<input asp-for="newSemester.SemesterOrder">
-		<input type="submit" value="Add Semester" class="AddSemester-submit">
+		<input type="submit" value="Save" class="AddSemester-submit">
 	</form>
 </div>
 <style>
@@ -101,7 +145,6 @@
 		width: 68ch;
 		border-radius: 15px;
 		overflow: hidden;
-		background-color: #219ebc;
 	}
 
 	.semester-name {
@@ -111,7 +154,7 @@
 		text-align: center;
 		padding-top: 1ch;
 		overflow: hidden;
-		background-color: #023047;
+		background-color: #415a77;
 	}
 
 	.semester-bottom {
@@ -119,7 +162,8 @@
 		display: flex;
 		justify-content: space-around;
 		align-items: center;
-		background-color: #8ecae6;
+		background-color: #415a77;
+		color: white;
 		height: 8ch;
 	}
 
@@ -144,6 +188,16 @@
 	td {
 		padding: 7px;
 		text-align: center;
+	}
+
+	.semester th {
+		background-color: #778da9;
+	}
+
+	.semester td {
+		background-color: #e0e1dd;
+		border-bottom: 1px solid black;
+		border-top: 1px solid black;
 	}
 
 	.AddSemester {
