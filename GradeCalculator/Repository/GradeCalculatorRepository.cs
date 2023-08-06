@@ -27,22 +27,29 @@ namespace GradeCalculator.Repository
 			{
 				profile.Semesters[i] = _GradeCalculatorContext.Semesters.Where(s => s.Id == profile.Semesters[i].Id).Include(s => s.Courses).FirstOrDefault();
 			}
+			profile.Semesters = profile.Semesters.OrderBy(s => s.SemesterOrder).ToList();
 			return profile;
 		}
 		public Profile GetProfileById(int id)
 		{
 			Profile profile = _GradeCalculatorContext.Profiles.Where(p => p.ID == id).Include(p => p.Semesters).ThenInclude(s => s.Courses).FirstOrDefault();
+			profile.Semesters = profile.Semesters.OrderBy(s => s.SemesterOrder).ToList();
 			return profile;
 		}
 		public void AddSemester(Profile profile, Semester semester)
 		{
+			semester.CGPA = 0;
+			semester.Average = 0;
 			_GradeCalculatorContext.Profiles.Where(p => p.ID == profile.ID).Include(p => p.Semesters).FirstOrDefault().Semesters.Add(semester);
 			_GradeCalculatorContext.SaveChanges();
 		}
-		public void AddCourse(Semester semester, Course course)
+		public void AddCourse(Profile profile, Semester semester, Course course)
 		{
-			//_GradeCalculatorContext.Profiles.Where(p => p.ID == profile.ID).Include(p => p.Semesters).FirstOrDefault().Semesters.Where(;
 			_GradeCalculatorContext.Semesters.Where(w => w.Id == semester.Id).Include(w => w.Courses).FirstOrDefault().Courses.Add(course);
+			profile = GetProfileById(profile.ID);
+			semester = _GradeCalculatorContext.Semesters.Where(w => w.Id == semester.Id).Include(w => w.Courses).FirstOrDefault();
+			CalculateGrade(profile.Semesters, semester);
+			_GradeCalculatorContext.Update(semester);
 			_GradeCalculatorContext.SaveChanges();
 		}
 		public Course CalculateGradePoint(Course course)
@@ -78,7 +85,7 @@ namespace GradeCalculator.Repository
 		}
 		public Semester GetSemester(int SemesterID)
 		{
-			return _GradeCalculatorContext.Semesters.Where(s=>s.Id==SemesterID).Include(s=>s.Courses).FirstOrDefault();
+			return _GradeCalculatorContext.Semesters.Where(s => s.Id == SemesterID).Include(s => s.Courses).FirstOrDefault();
 		}
 		public void DeleteSemester(Semester semester)
 		{
@@ -87,9 +94,40 @@ namespace GradeCalculator.Repository
 		}
 		public void EditSemester(Semester semester)
 		{
-			var modifiedSemeseter = _GradeCalculatorContext.Attach(semester);
-			modifiedSemeseter.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+			_GradeCalculatorContext.Update(semester);
 			_GradeCalculatorContext.SaveChanges();
+		}
+		Semester CalculateGrade(List<Semester> semesters, Semester semester)
+		{
+			if (semester.SemesterOrder.Equals(semesters[0].SemesterOrder))
+			{
+				foreach (var c in semester.Courses)
+				{
+					semester.TotalCreditHour += c.CreditHour;
+					semester.TotalGradePoint += c.GradePoint;
+				}
+				semester.Average = (semester.TotalGradePoint / (semester.TotalCreditHour * 4)) * 4;
+				semester.CGPA = semester.Average;
+			}
+			else
+			{
+				semester.TotalGradePoint = 0;
+				semester.TotalCreditHour = 0;
+				foreach (var c in semester.Courses)
+				{
+					semester.TotalCreditHour += c.CreditHour;
+					semester.TotalGradePoint += c.GradePoint;
+				}
+				semester.Average = (semester.TotalGradePoint / (semester.TotalCreditHour * 4)) * 4;
+				double? TotalGP = 0, TotalCredit = 0;
+				foreach (var s in semesters)
+				{
+					TotalGP += s.TotalGradePoint;
+					TotalCredit += s.TotalCreditHour;
+				}
+				semester.CGPA = (TotalGP / (TotalCredit * 4)) * 4;
+			}
+			return semester;
 		}
 	}
 }

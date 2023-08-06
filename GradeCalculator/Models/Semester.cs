@@ -8,7 +8,8 @@
 		public int Year { get; set; }
 		public double? Average { get; set; }
 		public double? CGPA { get; set; }
-
+		public double? TotalCreditHour { get; set; }
+		public double? TotalGradePoint { get; set; }
 		public List<Course>? Courses { get; set; }
 	}
 }

@@ -9,7 +9,7 @@ namespace GradeCalculator.Repository
 		public Profile GetProfile(Profile profile);
 		public Profile GetProfileById(int id);
 		public void AddSemester(Profile profile, Semester semester);
-		public void AddCourse(Semester semester, Course course);
+		public void AddCourse(Profile profile, Semester semester, Course course);
 		public Course CalculateGradePoint(Course course);
 		public Semester GetSemester(int SemesterID);
 		public void DeleteSemester(Semester semester);

@@ -30,7 +30,7 @@ namespace GradeCalculator.Controllers
 		public IActionResult AddCourse(GradeViewModel gradeViewModel)
 		{
 			gradeViewModel.newCourse = _GradeCalculatorRepository.CalculateGradePoint(gradeViewModel.newCourse);
-			_GradeCalculatorRepository.AddCourse(gradeViewModel.newSemester, gradeViewModel.newCourse);
+			_GradeCalculatorRepository.AddCourse(gradeViewModel.profile, gradeViewModel.newSemester, gradeViewModel.newCourse);
 			return View(gradeViewModel);
 		}
 		public IActionResult DeleteSemester(GradeViewModel gradeViewModel)
