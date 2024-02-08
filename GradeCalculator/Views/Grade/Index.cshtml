@@ -65,12 +65,12 @@
 						<tr>
 							<td colspan="7">
 								<!-- Button trigger modal -->
-								<button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
+								<button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal-@s.Id">
 									Add Course
 								</button>
 
 								<!-- Modal -->
-								<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+								<div class="modal fade" id="exampleModal-@s.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 									<div class="modal-dialog">
 										<div class="modal-content">
 											<div class="modal-header">
@@ -81,8 +81,7 @@
 												<div class="modal-body">
 													<input hidden asp-for="profile.ID" value="@Model.profile.ID">
 													<input hidden asp-for="profile.Name" value="@Model.profile.Name">
-													<label class="form-label text-left" asp-for="newSemester.Id">Semester ID</label>
-													<input class="form-control" asp-for="newSemester.Id" value="@s.Id">
+													<input hidden asp-for="newSemester.Id" value="@s.Id">
 													<label class="form-label text-left" asp-for="newCourse.CourseCode">Course Code</label>
 													<input class="form-control" asp-for="newCourse.CourseCode">
 
@@ -166,7 +165,7 @@
 	}
 
 	.semester {
-		display: flex;
+		
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;

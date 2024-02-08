@@ -6,7 +6,7 @@
 @{
 }
 <a class="btn btn-dark" asp-action="Index" asp-controller="Grade" asp-route-id="@Model.profile.ID">Back</a>
-
+@Model.newSemester.Id
 <form enctype="multipart/form-data" method="post" class="AddCourseForm" asp-action="EditCourse" asp-controller="Grade">
 	<div class="modal-body">
 		<h3>Edit Course</h3>

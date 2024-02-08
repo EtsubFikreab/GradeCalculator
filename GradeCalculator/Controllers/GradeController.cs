@@ -50,6 +50,7 @@ namespace GradeCalculator.Controllers
 		{
 			if(gradeViewModel.newCourse.CourseTitle==null)
 				gradeViewModel.newCourse=_GradeCalculatorRepository.GetCourse(gradeViewModel.newCourse.Id);
+			gradeViewModel.newCourse = _GradeCalculatorRepository.CalculateGradePoint(gradeViewModel.newCourse);
 			_GradeCalculatorRepository.EditCourse(gradeViewModel.profile, gradeViewModel.newSemester, gradeViewModel.newCourse);
 			if (gradeViewModel.newSemester.Name == null)
 				gradeViewModel.newSemester = _GradeCalculatorRepository.GetSemester(gradeViewModel.newSemester.Id);

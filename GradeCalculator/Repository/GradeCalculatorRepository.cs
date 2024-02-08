@@ -50,7 +50,6 @@ namespace GradeCalculator.Repository
 			_GradeCalculatorContext.Semesters.Where(w => w.Id == semester.Id).Include(w => w.Courses).FirstOrDefault().Courses.Add(course);
 			profile = GetProfileById(profile.ID);
 			semester = _GradeCalculatorContext.Semesters.Where(w => w.Id == semester.Id).Include(w => w.Courses).FirstOrDefault();
-
 			semester = CalculateGrade(profile.Semesters, semester);
 			_GradeCalculatorContext.Update(semester);
 			_GradeCalculatorContext.SaveChanges();
